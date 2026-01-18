@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">🍽️ Recipe Vault</a>
+  </div>
+</nav>
+
+<div class="main-content">
+  <app-recipe-scraper (recipeSaved)="onRecipeSaved($event)"></app-recipe-scraper>
+  <app-recipe-vault #vaultRef></app-recipe-vault>
+</div>
+
+<footer class="footer mt-5 py-3 bg-light">
+  <div class="container text-center">
+    <span class="text-muted">Recipe Vault &copy; 2026 - Powered by zachio.com</span>
+  </div>
+</footer>

@@ -1,0 +1,40 @@
+h2 {
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.btn {
+  min-width: 150px;
+}
+
+.recipe-preview {
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+
+  h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+  }
+
+  h5 {
+    color: #555;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .badge {
+    font-size: 0.85rem;
+  }
+}
+

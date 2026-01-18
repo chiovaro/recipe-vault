@@ -1,0 +1,116 @@
+h2 {
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-footer {
+  display: flex;
+  gap: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+.btn-sm {
+  flex: 1;
+}
+
+/* Modal Styles */
+.recipe-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-dialog-centered {
+    position: relative;
+    z-index: 1051;
+    max-width: 900px;
+    width: 100%;
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+    flex-shrink: 0;
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .btn-close {
+      padding: 0.5rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #666;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-left: 1rem;
+
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    max-height: calc(100vh - 8rem);
+  }
+}
+
