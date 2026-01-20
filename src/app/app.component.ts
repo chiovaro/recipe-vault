@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RecipeScraperComponent } from './components/recipe-scraper/recipe-scraper.component';
 import { RecipeVaultComponent } from './components/recipe-vault/recipe-vault.component';
 import { Recipe } from './services/recipe.service';
@@ -12,7 +12,7 @@ import { Recipe } from './services/recipe.service';
 })
 export class AppComponent {
   title = 'recipe-vault';
-  vaultComponent: RecipeVaultComponent | null = null;
+  @ViewChild(RecipeVaultComponent) vaultComponent!: RecipeVaultComponent;
 
   onRecipeSaved(recipe: Recipe): void {
     // Notify vault to refresh
