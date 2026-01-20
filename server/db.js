@@ -63,10 +63,10 @@ async function saveRecipe(title, ingredients, instructions, image, url) {
   }
 }
 
-// Delete recipe by ID
-async function deleteRecipe(id) {
+// Delete recipe by URL
+async function deleteRecipe(url) {
   try {
-    const result = await pool.query('DELETE FROM recipes WHERE id = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM recipes WHERE url = $1 RETURNING *', [url]);
     return result.rows[0];
   } catch (error) {
     console.error('Error deleting recipe:', error);
