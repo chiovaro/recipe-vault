@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Recipe {
   title: string;
@@ -14,7 +15,7 @@ export interface Recipe {
   providedIn: 'root'
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:3000/api/scrape'; // Backend API endpoint
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

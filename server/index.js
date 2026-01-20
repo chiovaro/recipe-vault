@@ -2,16 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const cheerio = require('cheerio');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+// Database
+const { initializeDatabase, saveRecipe, getAllRecipes, deleteRecipe } = require('./db');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Mock database (in-memory)
-let recipes = [];
 
 // Routes
 
@@ -124,9 +125,9 @@ app.post('/api/scrape', async (req, res) => {
       scrapedAt: new Date()
     };
 
-    recipes.push(recipe);
-
-    res.json(recipe);
+    // Save to database
+    const savedRecipe = await saveRecipe(recipe.title, recipe.ingredients, recipe.instructions, recipe.image, recipe.url);
+    res.json(savedRecipe);
   } catch (error) {
     console.error('Error scraping recipe:', error.message);
     res.status(500).json({ message: 'Failed to scrape recipe. Make sure the URL is valid.' });
@@ -134,30 +135,41 @@ app.post('/api/scrape', async (req, res) => {
 });
 
 // GET /api/scrape/recipes - Get all saved recipes
-app.get('/api/scrape/recipes', (req, res) => {
-  res.json(recipes);
+app.get('/api/scrape/recipes', async (req, res) => {
+  try {
+    const recipes = await getAllRecipes();
+    res.json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving recipes' });
+  }
 });
 
 // POST /api/scrape/save - Save a recipe to vault
-app.post('/api/scrape/save', (req, res) => {
+app.post('/api/scrape/save', async (req, res) => {
   const { recipe } = req.body;
   
   if (!recipe) {
     return res.status(400).json({ message: 'Recipe is required' });
   }
 
-  if (!recipes.find(r => r.url === recipe.url)) {
-    recipes.push(recipe);
+  try {
+    const savedRecipe = await saveRecipe(recipe.title, recipe.ingredients, recipe.instructions, recipe.image, recipe.url);
+    res.json(savedRecipe);
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving recipe' });
   }
-
-  res.json(recipe);
 });
 
 // DELETE /api/scrape/recipes/:id - Delete a recipe
-app.delete('/api/scrape/recipes/:id', (req, res) => {
+app.delete('/api/scrape/recipes/:id', async (req, res) => {
   const { id } = req.params;
-  recipes = recipes.filter(r => r.url !== decodeURIComponent(id));
-  res.json({ message: 'Recipe deleted' });
+  
+  try {
+    await deleteRecipe(id);
+    res.json({ message: 'Recipe deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting recipe' });
+  }
 });
 
 // Health check
@@ -166,7 +178,17 @@ app.get('/health', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Recipe Vault API Server running on http://localhost:${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-});
+async function startServer() {
+  try {
+    await initializeDatabase();
+    app.listen(PORT, () => {
+      console.log(`✓ Recipe Vault API Server running on http://localhost:${PORT}`);
+      console.log(`✓ Health check: http://localhost:${PORT}/health`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
