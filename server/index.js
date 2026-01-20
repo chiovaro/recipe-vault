@@ -11,7 +11,11 @@ const PORT = process.env.PORT || 3000;
 const { initializeDatabase, saveRecipe, getAllRecipes, deleteRecipe } = require('./db');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
